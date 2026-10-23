@@ -158,9 +158,18 @@ npm run build:vite               # build frontend saja
 npm run build                    # tauri build (installer)
 cargo check --offline            # dari src-tauri/ — cepat & hemat network
 
-CI: `.github/workflows/ci.yml` menjalankan typecheck + `cargo test` pada setiap push/PR.
-Rilis: push tag `v*` → `.github/workflows/release.yml` membangun installer NSIS + MSI dan
-membuat **draft release** di GitHub (perlu ditinjau & di-publish manual).
+CI: `.github/workflows/ci.yml` (typecheck + `cargo test`) dan `.github/workflows/release.yml`
+(tag `v*` → draft release berisi NSIS + MSI) sudah tersedia, tetapi **GitHub Actions belum aktif**
+untuk akun ini (billing) sehingga keduanya belum berjalan.
+
+Rilis manual:
+
+```bash
+npm run build
+# hasil: src-tauri/target/release/bundle/nsis/*-setup.exe
+#        src-tauri/target/release/bundle/msi/*.msi
+gh release create v0.1.0 src-tauri/target/release/bundle/nsis/*-setup.exe   src-tauri/target/release/bundle/msi/*.msi --title "Constructsee v0.1.0" --draft
+```
 ```
 
 Catatan lingkungan:
