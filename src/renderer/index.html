@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Constructsee</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      (function () {
+        function show(t) {
+          var d = document.createElement('pre')
+          d.style.cssText = 'color:#b00;padding:16px;font:12px monospace;white-space:pre-wrap'
+          d.textContent = t
+          document.body.appendChild(d)
+        }
+        window.addEventListener('error', function (e) {
+          show('JS ERROR: ' + (e.message || e.error) + '\n' + (e.filename || '') + ':' + (e.lineno || ''))
+        })
+        window.addEventListener('unhandledrejection', function (e) {
+          show('UNHANDLED REJECTION: ' + ((e.reason && (e.reason.stack || e.reason.message)) || e.reason))
+        })
+      })()
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

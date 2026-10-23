@@ -1,0 +1,12 @@
+node_modules/
+dist/
+out/
+dev.log
+dev-run.log
+build-run.log
+.data/
+*.tsbuildinfo
+src-tauri/target/
+src-tauri/gen/
+*.db-wal
+*.db-shm

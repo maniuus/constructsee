@@ -1,0 +1,26 @@
+[package]
+name = "constructsee"
+version = "0.1.0"
+description = "Constructsee — ERP konstruksi"
+authors = ["Abimanyu"]
+edition = "2021"
+rust-version = "1.77.2"
+publish = false
+license-file = "../LICENSE"
+repository = "https://github.com/maniuus/constructsee"
+
+[lib]
+name = "app_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.6.3", features = [] }
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+log = "0.4"
+tauri = { version = "2.11.3", features = [] }
+tauri-plugin-log = "2"
+rusqlite = { version = "0.32", features = ["bundled"] }
+chrono = { version = "0.4", features = ["serde"] }
