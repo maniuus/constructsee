@@ -1,0 +1,48 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install frontend deps
+        run: npm ci
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Build & draft release
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: v__VERSION__
+          releaseName: 'Constructsee v__VERSION__'
+          releaseBody: |
+            Installer Windows 64-bit untuk Constructsee v__VERSION__.
+
+            - `*-setup.exe` — installer NSIS (disarankan)
+            - `*.msi` — installer MSI
+
+            Catatan: installer belum ditandatangani, SmartScreen dapat menampilkan peringatan
+            (More info → Run anyway).
+          releaseDraft: true
+          prerelease: false
+          args: --bundles nsis,msi
