@@ -1,22 +1,22 @@
 /* ==========================================================================
    Constructsee — Hybrid Industrial
-   Shell/workspace = Swiss Industrial Print (light paper substrate).
+   Shell/workspace = Swiss Industrial Print (white substrate, neutral grey layers).
    Readout/analysis = Tactical Telemetry (dark CRT) via the .term scope.
    Discipline: 1-2px hard rules, ZERO radius, no gradients, no soft shadows,
    monospace telemetry, a single hazard-red accent.
    ========================================================================== */
 
 :root {
-  /* --- light substrate: unbleached documentation paper --- */
-  --paper: #f4f4ef;
-  --paper-2: #eae8e1;
-  --paper-3: #e0ded6;
+  /* --- light substrate: putih bersih (eye comfort) dengan lapisan abu netral --- */
+  --paper: #ffffff;
+  --paper-2: #f5f5f5;
+  --paper-3: #e9e9e9;
   --ink: #111111;
   --ink-2: #2b2b2b;
-  --ink-3: #565650;
-  --ink-dim: #8a887f;
+  --ink-3: #565656;
+  --ink-dim: #868686;
   --rule: #111111;
-  --rule-2: #c6c3b9;
+  --rule-2: #c9c9c9;
 
   /* --- dark substrate: deactivated CRT --- */
   --crt: #0b0b0b;
@@ -872,3 +872,140 @@ body {
 .r-tbl th { white-space: normal; overflow-wrap: break-word; }
 /* Header kolom angka rata tengah (mis. SAT/VOL dan kolom uang: "Rp" kiri + nominal kanan) */
 .r-tbl th.mid { text-align: center; }
+
+/* ---- First-run onboarding (Phase 20) ---- */
+.appbar-help {
+  width: 32px;
+  height: 28px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--ink);
+  flex: 0 0 auto;
+}
+.appbar-help:hover { background: var(--ink); color: var(--paper); }
+
+.onboard {
+  position: fixed;
+  inset: 0;
+  z-index: 75;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: color-mix(in srgb, var(--ink) 58%, transparent);
+}
+.onboard-card {
+  display: grid;
+  grid-template-columns: 236px 1fr;
+  width: min(940px, 100%);
+  max-height: calc(100vh - 48px);
+  background: var(--paper);
+  border: 2px solid var(--rule);
+  box-shadow: var(--shadow-hard);
+  overflow: hidden;
+}
+.onboard-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 18px;
+  background: var(--crt);
+  color: var(--phos);
+  border-right: 2px solid var(--rule);
+}
+.onboard-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  font-size: 11px;
+}
+.onboard-brand .mark { width: 10px; height: 10px; background: var(--red); flex: 0 0 auto; }
+.onboard-kicker {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--phos-dim);
+}
+.onboard-count { font-family: var(--mono); font-size: 46px; line-height: 1; font-weight: 700; letter-spacing: -0.02em; }
+.onboard-count span { font-size: 14px; color: var(--phos-dim); }
+.onboard-steps { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+.onboard-steps button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  background: none;
+  border: 0;
+  padding: 3px 0;
+  cursor: pointer;
+  color: var(--phos-dim);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: left;
+}
+.onboard-steps .bar { width: 14px; height: 3px; background: currentColor; opacity: 0.45; flex: 0 0 auto; transition: width var(--t-fast); }
+.onboard-steps .done { color: var(--phos-2); }
+.onboard-steps .cur { color: var(--phos); }
+.onboard-steps .cur .bar { width: 24px; background: var(--red); opacity: 1; }
+.onboard-steps button:hover { color: var(--phos); }
+.onboard-rail-note { margin-top: auto; font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; color: var(--phos-dim); }
+.onboard-main { padding: 26px 30px 22px; display: flex; flex-direction: column; overflow: auto; }
+.onboard-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--red);
+  font-weight: 700;
+}
+.onboard-main h2 { margin: 8px 0 10px; font-size: 25px; line-height: 1.15; letter-spacing: -0.015em; max-width: 28ch; }
+.onboard-lead { margin: 0 0 16px; font-size: 13px; line-height: 1.6; color: var(--ink-2); max-width: 62ch; }
+.onboard-flow { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; }
+.onboard-flow-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--rule);
+  padding: 6px 9px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--paper-2);
+  color: var(--ink-2);
+}
+.onboard-flow-item b { display: inline-grid; place-items: center; width: 15px; height: 15px; background: var(--ink); color: var(--paper); font-size: 9px; }
+.onboard-flow-item svg { color: var(--ink-dim); }
+.onboard-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+.onboard-points li { display: flex; gap: 10px; font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+.onboard-points .ico { flex: 0 0 auto; display: inline-grid; place-items: center; width: 22px; height: 22px; border: 1px solid var(--rule-2); color: var(--ink); }
+.onboard-note {
+  margin: 16px 0 0;
+  padding: 9px 11px;
+  border-left: 3px solid var(--red);
+  background: var(--paper-2);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.onboard-actions { display: flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 20px; flex-wrap: wrap; }
+.onboard-actions .grow { flex: 1; }
+
+@media (max-width: 780px) {
+  .onboard { padding: 10px; }
+  .onboard-card { grid-template-columns: 1fr; }
+  .onboard-rail { flex-direction: row; align-items: center; gap: 10px; padding: 10px 14px; border-right: 0; border-bottom: 2px solid var(--rule); }
+  .onboard-steps, .onboard-rail-note, .onboard-count span { display: none; }
+  .onboard-count { font-size: 20px; margin-left: auto; }
+  .onboard-main { padding: 18px 16px 16px; }
+  .onboard-main h2 { font-size: 20px; }
+}

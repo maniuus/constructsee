@@ -18,6 +18,7 @@ import ProgressModule from './modules/ProgressModule'
 import RabModule from './modules/RabModule'
 import ReportModule from './modules/ReportModule'
 import DashboardModule from './modules/DashboardModule'
+import { ONBOARD_KEY, Onboarding } from './components/Onboarding'
 import type {
   ContractTimeline,
   OrgInput,
@@ -194,7 +195,27 @@ export default function App() {
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [clock, setClock] = useState(() => new Date())
   const [newProjectSignal, setNewProjectSignal] = useState(0)
+  const [onboardingOpen, setOnboardingOpen] = useState(() => {
+    try {
+      return localStorage.getItem(ONBOARD_KEY) == null
+    } catch {
+      return false
+    }
+  })
   const status = useStatus()
+
+  const finishOnboarding = (startProject: boolean) => {
+    try {
+      localStorage.setItem(ONBOARD_KEY, '1')
+    } catch {
+      /* localStorage tidak tersedia — tetap tutup panduan */
+    }
+    setOnboardingOpen(false)
+    if (startProject) {
+      setModule('project')
+      setNewProjectSignal((n) => n + 1)
+    }
+  }
 
   useEffect(() => {
     const t = setInterval(() => setClock(new Date()), 1000)
@@ -243,6 +264,13 @@ export default function App() {
       run: () => setModule(m.id)
     })),
     {
+      id: 'onboarding',
+      label: 'Panduan Awal',
+      group: 'Bantuan',
+      icon: 'info',
+      run: () => setOnboardingOpen(true)
+    },
+    {
       id: 'new-project',
       label: 'Proyek Baru',
       group: 'Aksi',
@@ -269,6 +297,14 @@ export default function App() {
               <Icon name="search" size={14} />
               <span className="grow">Cari perintah…</span>
               <span className="kbd">Ctrl K</span>
+            </button>
+            <button
+              className="appbar-help"
+              title="Panduan awal"
+              aria-label="Buka panduan awal"
+              onClick={() => setOnboardingOpen(true)}
+            >
+              <Icon name="info" size={15} />
             </button>
           </header>
           <div className="shell">
@@ -339,6 +375,11 @@ export default function App() {
           </footer>
         </div>
         <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} commands={commands} />
+        <Onboarding
+          open={onboardingOpen}
+          onClose={() => finishOnboarding(false)}
+          onStartProject={() => finishOnboarding(true)}
+        />
       </ConfirmProvider>
     </ToastProvider>
   )
